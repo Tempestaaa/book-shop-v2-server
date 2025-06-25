@@ -9,10 +9,14 @@ import { hasPasswordHelper } from '@/helpers/utils';
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto';
 import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private mailerService: MailerService,
+  ) {}
 
   isEmailExists = async (email: string) => {
     const user = await this.userModel.exists({ email });
@@ -105,18 +109,38 @@ export class UsersService {
     // Hash password
     const hashPassword = await hasPasswordHelper(password);
 
+    // Generate activation code
+    const codeId = uuid();
+
     const user = await this.userModel.create({
       email,
       firstName,
       lastName,
       password: hashPassword,
       isActive: false,
-      codeId: uuid(),
-      codeExpired: dayjs().add(1, 'day'),
+      codeId,
+      codeExpired: dayjs().add(30, 'seconds'),
     });
-    // Return response
-    return { _id: user._id };
 
     // Send verify email
+    this.mailerService
+      .sendMail({
+        to: user.email,
+        subject: 'Activate your account at SpineChill',
+        template: 'register',
+        context: {
+          name: user?.username ?? user.email,
+          activationCode: codeId,
+        },
+      })
+      .then(() => {
+        console.log('>>Mail sent');
+      })
+      .catch((error) => {
+        console.log('Mail error: ', error);
+      });
+
+    // Return response
+    return { _id: user._id };
   }
 }

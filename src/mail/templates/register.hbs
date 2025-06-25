@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Your Code from [Your Bookshop Name]</title>
+    <style type='text/css'>
+      /* Basic Reset */ body { margin: 0; padding: 0; min-width: 100%;
+      background-color: #f4f4f4; } table { border-spacing: 0; font-family:
+      sans-serif; color: #333333; } td { padding: 0; } img { border: 0; } /*
+      Main Container */ .container { width: 100%; max-width: 600px; margin: 0
+      auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px
+      rgba(0,0,0,0.05); } /* Header */ .header { padding: 20px 30px;
+      background-color: #6a008a; /* A nice bookshop purple */ color: #ffffff;
+      text-align: center; border-top-left-radius: 8px; border-top-right-radius:
+      8px; } .header h1 { margin: 0; font-size: 24px; line-height: 1.2; } /*
+      Content */ .content { padding: 30px; line-height: 1.6; color: #333333; }
+      .content p { margin-top: 0; margin-bottom: 15px; font-size: 16px; }
+      .content strong { font-weight: bold; color: #6a008a; } /* Code Block */
+      .code-block { background-color: #f0e6fa; /* Lighter purple background */
+      border: 1px dashed #a056b3; /* Dashed purple border */ padding: 15px 20px;
+      text-align: center; margin: 25px 0; border-radius: 5px; } .code-block h2 {
+      margin: 0; font-size: 32px; letter-spacing: 2px; color: #6a008a;
+      word-break: break-all; /* Ensures long codes wrap */ } /* Footer */
+      .footer { padding: 20px 30px; background-color: #ededed; color: #777777;
+      text-align: center; font-size: 12px; border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px; line-height: 1.5; } .footer a { color:
+      #6a008a; text-decoration: none; } /* Responsive Adjustments */ @media
+      screen and (max-width: 600px) { .container { width: 100% !important;
+      border-radius: 0; box-shadow: none; } .header, .content, .footer {
+      padding: 20px !important; } .code-block { padding: 15px !important; }
+      .code-block h2 { font-size: 24px !important; } }
+    </style>
+  </head>
+  <body>
+    <div style='background-color: #f4f4f4; padding: 20px 0;'>
+      <table
+        role='presentation'
+        width='100%'
+        cellspacing='0'
+        cellpadding='0'
+        border='0'
+      >
+        <tr>
+          <td align='center' style='padding: 0;'>
+            <table
+              role='presentation'
+              class='container'
+              cellspacing='0'
+              cellpadding='0'
+              border='0'
+            >
+              <tr>
+                <td class='header'>
+                  <h1>Your Code for SpineChill</h1>
+                </td>
+              </tr>
+              <tr>
+                <td class='content'>
+                  <p>Hi {{name}},</p>
+                  <p>Thank you for your recent request on
+                    <strong>SpineChill</strong>!</p>
+                  <p>Here is your
+                    <strong>verification code</strong>:</p>
+
+                  <div class='code-block'>
+                    <h2>{{activationCode}}</h2>
+                  </div>
+
+                  <p>Please use this code to complete your verification on our
+                    website. This code is valid for
+                    <strong>1 day</strong>
+                    and can only be used once.</p>
+                  <p>If you didn't request this code, please ignore this email.
+                    Your account security is important to us.</p>
+                  <p>Happy reading!</p>
+                  <p>Best regards,<br />The Team at SpineChill</p>
+                </td>
+              </tr>
+              <tr>
+                <td class='footer'>
+                  <p><a href='' target='_blank'>SpineChill</a>
+                    |
+                  </p>
+                  <p>&copy; 2025 SpineChill. All rights reserved.</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
