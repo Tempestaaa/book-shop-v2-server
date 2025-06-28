@@ -1,21 +1,8 @@
-import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { User } from '@/modules/users/schema/user.schema';
+import { PickType } from '@nestjs/mapped-types';
 
-export class CreateUserDto {
-  @IsNotEmpty()
-  username: string;
-
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
-  password: string;
-
-  @IsNotEmpty()
-  firstName: string;
-
-  @IsNotEmpty()
-  lastName: string;
-
-  @IsOptional()
-  image: string;
-}
+export class CreateUserDto extends PickType(User, [
+  'username',
+  'email',
+  'password',
+] as const) {}

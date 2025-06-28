@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 
-export const hasPasswordHelper = async (plainPassword) => {
+export const hasPasswordHelper = async (plainPassword: string) => {
   try {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(plainPassword, salt);

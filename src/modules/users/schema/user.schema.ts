@@ -1,45 +1,85 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  IsBoolean,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 import { HydratedDocument } from 'mongoose';
 
-interface UserMethods {
-  comparePassword: (plainPassword: string) => Promise<boolean>;
+export type UserDocument = HydratedDocument<User>;
+
+enum UserAccountType {
+  LOCAL = 'local',
+  GOOGLE = 'google',
 }
 
-export type UserDocument = HydratedDocument<User> & UserMethods;
+enum UserRole {
+  USER = 'user',
+  ADMIN = 'admin',
+}
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop()
+  // ****** Essentials fields ******
+  @Prop({ required: true, trim: true, maxlength: 50 })
+  @IsString()
+  @IsNotEmpty({ message: 'Username cannot be empty' })
   username: string;
 
-  @Prop()
+  @Prop({ required: true, trim: true, unique: true })
+  @IsEmail({}, { message: 'Invalid email format' })
   email: string;
 
-  @Prop()
+  @Prop({ required: true })
+  @IsString()
+  @IsNotEmpty({ message: 'Password cannot be empty' })
   password: string;
 
-  @Prop()
+  // ****** Optional fields ******
+  @Prop({ trim: true, maxlength: 50 })
+  @IsString()
+  @IsOptional()
   firstName: string;
 
-  @Prop()
+  @Prop({ trim: true, maxlength: 50 })
+  @IsString()
+  @IsOptional()
   lastName: string;
 
   @Prop()
+  @IsOptional()
   image: string;
 
-  @Prop({ default: 'LOCAL' })
-  accountType: string;
+  @Prop({ trim: true })
+  @IsOptional()
+  address: string;
 
-  @Prop({ default: 'USER' })
-  role: string;
+  // ****** User account type ******
+  @Prop({ enum: UserAccountType, default: UserAccountType.LOCAL })
+  @IsEnum(UserAccountType)
+  accountType: UserAccountType;
 
+  // ****** User role ******
+  @Prop({ enum: UserRole, default: UserRole.USER })
+  @IsEnum(UserRole)
+  role: UserRole;
+
+  // ****** Is verified? ******
   @Prop({ default: false })
+  @IsBoolean()
   isActive: boolean;
 
+  // ****** Verify token and expired date ******
   @Prop()
+  @IsOptional()
   codeId: string;
 
   @Prop()
+  @IsOptional()
   codeExpired: Date;
 }
 

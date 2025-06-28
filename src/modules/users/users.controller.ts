@@ -16,28 +16,18 @@ import {
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
   @Get()
   async findAll(@Query() query: string) {
-    return this.usersService.findAll(query);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findAllUsers(query);
   }
 
   @Patch()
   update(@Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(updateUserDto);
+    return this.usersService.updateUser(updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+    return this.usersService.removeUser(id);
   }
 }

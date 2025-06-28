@@ -1,7 +1,8 @@
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto';
 import { comparePassword } from '@/helpers/utils';
+import { UserDocument } from '@/modules/users/schema/user.schema';
 import { UsersService } from '@/modules/users/users.service';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -13,22 +14,29 @@ export class AuthService {
 
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
-    if (!user) return null;
+    if (!user) throw new BadRequestException('Invalid credentials/emails');
 
     const isPasswordValid = await comparePassword(pass, user.password);
-    if (!isPasswordValid) return null;
+    if (!isPasswordValid)
+      throw new BadRequestException('Passwords do not match');
 
     return user;
   }
 
-  async login(user: any) {
+  async login(user: UserDocument) {
     const payload = { email: user.email, sub: user._id };
     return {
+      _id: user._id,
+      email: user.email,
       access_token: this.jwtService.sign(payload),
     };
   }
 
   async handleRegister(registerDto: CreateAuthDto) {
     return this.usersService.handleRegister(registerDto);
+  }
+
+  async getProfile(_id: string) {
+    return this.usersService.findOneUser(_id);
   }
 }
