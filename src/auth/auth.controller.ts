@@ -1,7 +1,7 @@
 import { AuthService } from '@/auth/auth.service';
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto';
 import { LocalAuthGuard } from '@/auth/passport/local-auth.guard';
-import { Public } from '@/decorator/customize';
+import { Public, ResponseMessage } from '@/decorator/customize';
 import {
   Body,
   Controller,
@@ -18,6 +18,7 @@ export class AuthController {
   @Post('login')
   @Public()
   @UseGuards(LocalAuthGuard)
+  @ResponseMessage('Fetch login')
   handleLogin(@Request() req) {
     return this.authService.login(req.user);
   }

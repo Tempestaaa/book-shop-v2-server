@@ -14,7 +14,7 @@ export class AuthService {
 
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
-    if (!user) throw new BadRequestException('Invalid credentials/emails');
+    if (!user) throw new BadRequestException('Invalid credentials');
 
     const isPasswordValid = await comparePassword(pass, user.password);
     if (!isPasswordValid)
@@ -28,6 +28,7 @@ export class AuthService {
     return {
       _id: user._id,
       email: user.email,
+      role: user.role as string,
       access_token: this.jwtService.sign(payload),
     };
   }
